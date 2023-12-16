@@ -36,7 +36,8 @@ lazynvm() {
         fi
         return 1
     fi
-    nvm use "$version" > /dev/null 2>&1 || (echo -e "\033[0;30m\e[3mLazyNVM • \033[0;33m⏳ Installing Node.js v$version...\e[0m" && nvm install "$version" > /dev/null)
-    local current_version=$(node -v)
-    echo -e "\033[0;30m\e[3mLazyNVM • \033[0;32m✅ Now using Node.js $current_version\e[0m"
+    source "$NVM_DIR/nvm.sh"
+    nvm use "$version" > /dev/null 2>&1 || (echo -e "\033[0;30mLazyGVM • \033[0;33m⏳ Installing Node.js v$version...\e[0m" && nvm install "$version" > /dev/null) || (echo -e "\033[0;30mLazyNVM • \033[0;31m\e[1m❌ Failed to use or install Node.js v$version\e[0m" && return 1)
+    local displayVersion=$(node -v)
+    echo -e "\033[0;30m\e[3mLazyNVM • \033[0;32m✅ Now using Node.js $displayVersion\e[0m"
 }

@@ -33,6 +33,7 @@ lazygvm() {
         return 1
     fi
     local version="go$recoveredVersion"
-    gvm use "$version" > /dev/null 2>&1 || (echo -e "\033[0;30m\e[3mLazyGVM • \033[0;33m⏳ Installing Go v$recoveredVersion...\e[0m" && gvm install "$version" > /dev/null)
+    gvm use "$version" > /dev/null 2>&1 || (echo -e "\033[0;30mLazyGVM • \033[0;33m⏳ Installing Go v$recoveredVersion...\e[0m" && gvm install "$version" > /dev/null && gvm use "$version" > /dev/null) || (echo -e "\033[0;30mLazyGVM • \033[0;31m\e[1m❌ Failed to use or install Go v$recoveredVersion\e[0m" && return 1)
+    local displayVersion=$(go version | awk '{print $3}' | sed 's/go//g')
     echo -e "\033[0;30m\e[3mLazyGVM • \033[0;32m✅ Now using Go v$recoveredVersion\e[0m"
 }
