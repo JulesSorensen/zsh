@@ -21,23 +21,22 @@ _lnvmGetVersionFromDockerfile() {
     fi
 }
 lazynvm() {
-    local log_option=$1
-    local dockerfile=$(_lnvmFindDockerfile)
+    local log_option=$1 dockerfile=$(_lnvmFindDockerfile) displayTitle="\033[0;30mLazyNVM •" displayError="\033[0;31m\e[1m❌" displayWaiting="\033[0;33m⏳" displaySuccess="\033[0;32m✅" displayReset="\e[0m"
     if [[ -z $dockerfile ]]; then
         if [[ $log_option != "--quiet" ]]; then
-            echo -e "\033[0;30mLazyNVM • \033[0;31m\e[1m❌ No Dockerfile found\e[0m"
+            echo -e "$displayTitle $displayError No Dockerfile found$displayReset"
         fi
         return 1
     fi
     local version=$(_lnvmGetVersionFromDockerfile "$dockerfile")
     if [[ -z $version ]]; then
         if [[ $log_option != "--quiet" ]]; then
-            echo -e "\033[0;30mLazyNVM • \033[0;31m\e[1m❌ No Node.js version found in Dockerfile\e[0m"
+            echo -e "$displayTitle $displayError No Node.js version found in Dockerfile$displayReset"
         fi
         return 1
     fi
-    source "$NVM_DIR/nvm.sh"
-    nvm use "$version" > /dev/null 2>&1 || (echo -e "\033[0;30mLazyGVM • \033[0;33m⏳ Installing Node.js v$version...\e[0m" && nvm install "$version" > /dev/null) || (echo -e "\033[0;30mLazyNVM • \033[0;31m\e[1m❌ Failed to use or install Node.js v$version\e[0m" && return 1)
+    nvm use "$version" > /dev/null 2>&1 || (echo -e "$displayTitle $displayWaiting Installing Node.js v$version...$displayReset" && nvm install "$version" > /dev/null && echo -e "$displayTitle \033[0;36m👍 Successfully installed Node.js v$version$displayReset") || (echo -e "$displayTitle $displayError Failed to use or install Node.js v$version$displayReset" && return 1)
+    nvm use "$version" > /dev/null || (echo -e "$displayTitle $displayError Failed to use Node.js v$version\nTry to restart your terminal$displayReset" && return 1)
     local displayVersion=$(node -v)
-    echo -e "\033[0;30m\e[3mLazyNVM • \033[0;32m✅ Now using Node.js $displayVersion\e[0m"
+    echo -e "$displayTitle $displaySuccess Now using Node.js $displayVersion$displayReset"
 }

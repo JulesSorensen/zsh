@@ -4,15 +4,17 @@ This is my ZSH configuration. It contains a list of aliases and scripts that I u
 
 ## Aliases
 
-See the [aliases](./zshrc) file for a list of aliases.
+See the [aliases](./.zshrc) file for a list of aliases.
 
 ## Scripts
 
 See the [scripts](./scripts) directory for a list of scripts.
 
 Currently, the scripts are:
-    - `lazynvm` - A script allowing you to automatically load the node version defined in your Docker configuration using NVM.
-    - `lazygvm` - Same, but for Go with GVM.
+
+- `lazynvm` - A script allowing you to automatically load the node version defined in your Docker configuration using NVM.
+
+- `lazygvm` - Same, but for Go with GVM.
 
 ## Installation
 
